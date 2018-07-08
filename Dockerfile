@@ -1,5 +1,5 @@
 FROM alpine:3.7
-MAINTAINER Lars K.W. Gohlke <lkwg82@gmx.de>
+MAINTAINER Yuji Yaginuma <yuuji.yaginuma@gmail.com>
 
 ENV URL     https://github.com/h2o/h2o.git
 ENV VERSION  tags/v2.3.0-beta1
@@ -7,7 +7,7 @@ ENV VERSION  tags/v2.3.0-beta1
 RUN apk update \
     && apk upgrade \
     # need for ocsp stapling \
-    && apk add -U perl openssl \
+    && apk add -U perl openssl openssl-dev \
     # just needed since v2
     && apk add -U libstdc++ \
     # save state before installed packages for building \
@@ -36,8 +36,8 @@ RUN apk update \
     && rm -rf /var/cache/apk/* \
     # just test it \
     && h2o -v
-    
-RUN mkdir /etc/h2o 
+
+RUN mkdir /etc/h2o
 ADD h2o.conf /etc/h2o/
 WORKDIR /etc/h2o
 EXPOSE 8080 8443
